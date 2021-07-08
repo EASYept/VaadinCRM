@@ -58,9 +58,9 @@ public class BusinessTripsCreateForm2 extends VerticalLayout {
     private VerticalLayout tripForm() {
 
         allPersons = personService.findAll(); // TODO bad idea to finding all HOW TO REDUCE AMOUNT?
-        BusinessTrip trip = new BusinessTrip();
-        VerticalLayout layout = new VerticalLayout();
-
+        BusinessTrip trip = new BusinessTrip(); //mapping fields to this object
+        VerticalLayout layout = new VerticalLayout(); //layout itself
+        //layout settings
         layout.setAlignItems(Alignment.CENTER);
         layout.setJustifyContentMode(JustifyContentMode.CENTER);
         layout.setPadding(true);
@@ -79,10 +79,6 @@ public class BusinessTripsCreateForm2 extends VerticalLayout {
         List<Person> personsToMapToBusinessTrip = new ArrayList<>();
         //button
         Button submitMapAllFieldsToTripAndSave = new Button("Submit", event -> {
-            trip.setFactory(dropDownFactories.getValue());
-            trip.setDateOfTrip(Date.valueOf(startDate.getValue()));
-            trip.setEndOfTrip(Date.valueOf(endDate.getValue()));
-
             List<Component> collectAllPersons = personsComboBoxes.getChildren().collect(Collectors.toList());
             for (Component person : collectAllPersons) {
                 if (person instanceof ComboBox) {
@@ -91,10 +87,13 @@ public class BusinessTripsCreateForm2 extends VerticalLayout {
                 }
             }
 
-            //set persons
+            //set fields
             trip.setPersons(personsToMapToBusinessTrip.stream()
                                                 .distinct()
                                                 .collect(Collectors.toList())); // Deleting duplicates if presented
+            trip.setFactory(dropDownFactories.getValue());
+            trip.setDateOfTrip(Date.valueOf(startDate.getValue()));
+            trip.setEndOfTrip(Date.valueOf(endDate.getValue()));
 
             // saving entity
             businessTripService.add(trip);

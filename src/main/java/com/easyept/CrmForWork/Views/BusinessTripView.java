@@ -64,7 +64,7 @@ public class BusinessTripView extends VerticalLayout {
     }
 
     private void createTripButtonConfig() {
-        creteTrip.addClickListener(event -> UI.getCurrent().navigate(BusinessTripsCreateForm2.class));
+        creteTrip.addClickListener(event -> UI.getCurrent().navigate(BTCreateForm_v3.class));
     }
 
     private void updateGridItems() {

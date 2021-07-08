@@ -38,9 +38,11 @@ public class BusinessTrip {
     @NotNull
     private Factory factory;
 
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfTrip;
 
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endOfTrip;
 
