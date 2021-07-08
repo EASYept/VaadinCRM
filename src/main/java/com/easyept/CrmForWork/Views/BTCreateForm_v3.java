@@ -13,8 +13,10 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,13 +32,13 @@ public class BTCreateForm_v3 extends VerticalLayout {
     private FactoryService factoryService;
     private BusinessTripService businessTripService;
 
-    private Button buttonAddAnotherPerson = new Button("Add another person");
-    private ComboBox<Person> choosePerson = new ComboBox<>("Persons");
-    private FlexLayout peopleFields = new FlexLayout();
-    private ComboBox<Factory> chooseFactory = new ComboBox<>("Factories");
-    private DatePicker startDate = new DatePicker("Starting Date");
-    private DatePicker endDate = new DatePicker("End Date");
-    private Button submitAllFieldsToTripAndSave = new Button("Submit");
+    Button buttonAddAnotherPerson = new Button("Add another person");
+    ComboBox<Person> choosePerson = new ComboBox<>("Persons");
+    FlexLayout peopleFields = new FlexLayout();
+    ComboBox<Factory> chooseFactory = new ComboBox<>("Factories");
+    DatePicker startDate = new DatePicker("Starting Date");
+    DatePicker endDate = new DatePicker("End Date");
+    Button submitAllFieldsToTripAndSave = new Button("Submit");
 
     public BTCreateForm_v3(@Autowired PersonService personService,
                             @Autowired FactoryService factoryService,
@@ -44,6 +46,9 @@ public class BTCreateForm_v3 extends VerticalLayout {
         this.factoryService = factoryService;
         this.personService = personService;
         this.businessTripService = businessTripService;
+
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
 
         peopleFields.add(choosePerson);
         add(buttonAddAnotherPerson,
@@ -54,7 +59,7 @@ public class BTCreateForm_v3 extends VerticalLayout {
                 submitAllFieldsToTripAndSave
         );
 
-        List<Person> allPeople = personService.findAll();
+        List<Person> allPeople = this.personService.findAll();
         configForChoosePerson(choosePerson, allPeople);
         configForButtonAddAnotherPerson(buttonAddAnotherPerson, peopleFields, allPeople);
         configForPeopleFields(peopleFields);
@@ -77,18 +82,25 @@ public class BTCreateForm_v3 extends VerticalLayout {
                 }
             }
             //set fields
-            trip.setPersons(allPersonsFromLayout.stream()
-                    .distinct()
-                    .collect(Collectors.toList())); // Deleting duplicates if presented
-            trip.setFactory(chooseFactory.getValue());
-            trip.setDateOfTrip(Date.valueOf(startDate.getValue()));
-            trip.setEndOfTrip(Date.valueOf(endDate.getValue()));
+            if (chooseFactory.getValue() != null && startDate.getValue() != null && endDate.getValue() != null) {
+                trip.setPersons(allPersonsFromLayout.stream()
+                        .distinct()
+                        .collect(Collectors.toList())); // Deleting duplicates if presented
+                trip.setFactory(chooseFactory.getValue());
+                trip.setDateOfTrip(Date.valueOf(startDate.getValue()));
+                trip.setEndOfTrip(Date.valueOf(endDate.getValue()));
 
-            // saving BusinessTrip
-            businessTripService.add(trip);
+                // saving BusinessTrip
+                businessTripService.add(trip);
 
-            //redirect to BusinessTripView
-            UI.getCurrent().navigate(BusinessTripView.class);
+                //redirect to BusinessTripView
+                UI.getCurrent().navigate(BusinessTripView.class);
+            } else {
+                Notification notification = new Notification(
+                        "You forgot something to fill", 4000);
+                notification.setPosition(Notification.Position.MIDDLE);
+                notification.open();
+            }
         });
 
     }
