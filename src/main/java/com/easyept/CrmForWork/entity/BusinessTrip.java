@@ -1,7 +1,5 @@
 package com.easyept.CrmForWork.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -46,11 +44,11 @@ public class BusinessTrip {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endOfTrip;
 
-    public void addPerson(Person person) {
-        if (persons == null) {
-            persons = new ArrayList<>();
-        }
-        persons.add(person);
+    public BusinessTrip(List<Person> persons, Factory factory, Date dateOfTrip, Date endOfTrip) {
+        this.persons = persons;
+        this.factory = factory;
+        this.dateOfTrip = dateOfTrip;
+        this.endOfTrip = endOfTrip;
     }
 
     //lombok getters and setters

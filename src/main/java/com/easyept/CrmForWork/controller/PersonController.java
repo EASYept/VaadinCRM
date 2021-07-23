@@ -1,9 +1,6 @@
 package com.easyept.CrmForWork.controller;
 
 
-import com.easyept.CrmForWork.dao.BusinessTripRepository;
-import com.easyept.CrmForWork.dao.FactoryRepository;
-import com.easyept.CrmForWork.dao.PersonRepository;
 import com.easyept.CrmForWork.entity.BusinessTrip;
 import com.easyept.CrmForWork.entity.Factory;
 import com.easyept.CrmForWork.entity.Person;
@@ -61,6 +58,41 @@ public class PersonController {
         b1.setDateOfTrip(new Date(new LocalDate().toDate().getTime()));
         b1.setEndOfTrip(new Date(new LocalDate().toDate().getTime()));
         tripService.add(b1);
+
+        List<Person> personList1 = Arrays.asList(p3, p4);
+        BusinessTrip b2 = new BusinessTrip(
+                personList1,
+                f2,
+                new Date(new LocalDate().plusDays(2).toDate().getTime()),
+                new Date(new LocalDate().plusDays(3).toDate().getTime()));
+        tripService.add(b2);
+
+        List<Person> personList2 = Arrays.asList(p4, p5);
+        BusinessTrip b3 = new BusinessTrip(
+                personList2,
+                f2,
+                new Date(new LocalDate().plusDays(6).toDate().getTime()),
+                new Date(new LocalDate().plusDays(7).toDate().getTime()));
+        tripService.add(b3);
+
+        //past
+        List<Person> personList4 = Arrays.asList(p4, p5);
+        BusinessTrip b4 = new BusinessTrip(
+                personList4,
+                f1,
+                new Date(new LocalDate().minusDays(30).toDate().getTime()),
+                new Date(new LocalDate().minusDays(25).toDate().getTime()));
+        tripService.add(b4);
+
+        //future
+        List<Person> personList5 = Arrays.asList(p4, p5);
+        BusinessTrip b5 = new BusinessTrip(
+                personList5,
+                f2,
+                new Date(new LocalDate().plusDays(30).toDate().getTime()),
+                new Date(new LocalDate().plusDays(35).toDate().getTime()));
+        tripService.add(b5);
+
     }
 
 
