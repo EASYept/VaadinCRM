@@ -3,6 +3,7 @@ package com.easyept.CrmForWork.Views;
 import com.easyept.CrmForWork.Views.UI.SkeletOfApp;
 import com.easyept.CrmForWork.service.WorkStatsService;
 import com.vaadin.flow.component.details.Details;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -40,7 +41,7 @@ public class StatisticsPage extends FlexLayout {
     }
 
     private void configDetails(Details details, String weekName, Date anyDateInWeek) {
-        details.setSummaryText("" + weekName);
+        details.setSummary(new H3("" + weekName));
         int howManyPeopleWorkOnThisWeak = statsService.howManyPeopleWorkOnThisWeek(anyDateInWeek);
         int howManyWorkHours = statsService.howManyWorkDaysOnThisWeek(anyDateInWeek);
         details.addContent(new VerticalLayout(

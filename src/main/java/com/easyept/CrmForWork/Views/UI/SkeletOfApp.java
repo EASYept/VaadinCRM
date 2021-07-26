@@ -3,7 +3,9 @@ package com.easyept.CrmForWork.Views.UI;
 import com.easyept.CrmForWork.Views.*;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -39,15 +41,16 @@ public class SkeletOfApp extends AppLayout {
     }
 
     private void createHeader() {
-        H1 logo = new H1("CRM for Work");
+        H3 logo = new H3("CRM for Work");
         logo.setClassName("logo");
-        logo.setMaxHeight("20em");
+        logo.setMaxHeight("10em");
+        Anchor logout = new Anchor("/logout", "Log out");
 
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo);
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout);
         header.setClassName("header");
         header.setWidth("100%");
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
-        header.setMaxHeight("5em");
+        header.expand(logo);
 
         addToNavbar(header);
 
