@@ -11,8 +11,7 @@ class DateUtilClassTest {
 
     @Test
     void TestGetMondayOfWeek() {
-        DateUtilClass u = new DateUtilClass();
-        LocalDate dateToAssert = u.getMondayOfThisWeek(LocalDate.of(2021, Month.JULY, 20));
+        LocalDate dateToAssert = DateUtilClass.getMondayOfThisWeek(LocalDate.of(2021, Month.JULY, 20));
         assertEquals(LocalDate.of(2021, Month.JULY, 19), dateToAssert);
 
     }
