@@ -7,11 +7,11 @@ import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UtilClassTest {
+class DateUtilClassTest {
 
     @Test
     void TestGetMondayOfWeek() {
-        UtilClass u = new UtilClass();
+        DateUtilClass u = new DateUtilClass();
         LocalDate dateToAssert = u.getMondayOfThisWeek(LocalDate.of(2021, Month.JULY, 20));
         assertEquals(LocalDate.of(2021, Month.JULY, 19), dateToAssert);
 

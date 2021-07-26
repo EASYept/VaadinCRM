@@ -2,7 +2,7 @@ package com.easyept.CrmForWork.service;
 
 import com.easyept.CrmForWork.entity.BusinessTrip;
 import com.easyept.CrmForWork.entity.Person;
-import com.easyept.CrmForWork.util.UtilClass;
+import com.easyept.CrmForWork.util.DateUtilClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class WorkStatsService { //TODO should i make only one method "getStatist
     }
 
     public int howManyPeopleWorkOnThisWeek(Date anyDayOfWeek) {
-        LocalDate monday = UtilClass.getMondayOfThisWeek(anyDayOfWeek.toLocalDate());
+        LocalDate monday = DateUtilClass.getMondayOfThisWeek(anyDayOfWeek.toLocalDate());
         LocalDate sunday = monday.plusDays(6);
         return howManyPeopleWorkBetweenTwoDates(Date.valueOf(monday), Date.valueOf(sunday));
     }
@@ -55,7 +55,7 @@ public class WorkStatsService { //TODO should i make only one method "getStatist
                     (trip.getEndOfTrip().after(endOfWeek) ? endOfWeek : trip.getEndOfTrip() );
 
             List<LocalDate> allDates = //days list
-                    UtilClass.allDatesBetweenDates(
+                    DateUtilClass.allDatesBetweenDates(
                                                 startDate.toLocalDate(),
                                                 endDate.toLocalDate());
             for (LocalDate date : allDates) {
@@ -68,7 +68,7 @@ public class WorkStatsService { //TODO should i make only one method "getStatist
     }
 
     public int howManyWorkDaysOnThisWeek(Date anyDayOfWeek) {
-        LocalDate monday = UtilClass.getMondayOfThisWeek(anyDayOfWeek.toLocalDate());
+        LocalDate monday = DateUtilClass.getMondayOfThisWeek(anyDayOfWeek.toLocalDate());
         LocalDate sunday = monday.plusDays(6);
         return howManyWorkDays(Date.valueOf(monday), Date.valueOf(sunday));
     }

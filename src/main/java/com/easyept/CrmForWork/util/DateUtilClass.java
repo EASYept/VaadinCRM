@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UtilClass {
+public class DateUtilClass {
 
     public static List<LocalDate> allDatesBetweenDates(LocalDate d1, LocalDate d2) {
         List<LocalDate> datesBetween = new ArrayList<>(Math.toIntExact(ChronoUnit.DAYS.between(d1,d2)));
