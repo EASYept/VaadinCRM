@@ -1,12 +1,14 @@
 package com.easyept.CrmForWork.service;
 
 import com.easyept.CrmForWork.entity.BusinessTrip;
+import com.easyept.CrmForWork.entity.Person;
 import com.easyept.CrmForWork.util.UtilClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,9 +25,12 @@ public class WorkStatsService { //TODO should i make only one method "getStatist
         int howManyPeopleWork = 0;
         List<BusinessTrip> businessTripList =
                 businessTripService.findActiveTripsBetweenTwoDates(startOfWeek, endOfWeek);
+        List<Person> personList = new ArrayList<>();
         for (BusinessTrip trip:businessTripList) {
-            howManyPeopleWork += trip.getPersons().size();
+            personList.addAll(trip.getPersons());
         }
+        long amountOfPeople = personList.stream().distinct().count();
+        howManyPeopleWork = (int) amountOfPeople;
         return howManyPeopleWork;
     }
 
@@ -37,16 +42,25 @@ public class WorkStatsService { //TODO should i make only one method "getStatist
 
     public int howManyWorkDays(Date startOfWeek, Date endOfWeek) {
         int howManyHours = 0;
+        int hoursInWorkDay = 8;
         List<BusinessTrip> businessTripList =
                 businessTripService.findActiveTripsBetweenTwoDates(startOfWeek, endOfWeek);
         for (BusinessTrip trip:businessTripList) {
-            List<LocalDate> allDates =
+            int peopleCount = trip.getPersons().size(); //People count
+            // is starting date of trip on this week or not
+            Date startDate =
+                    (trip.getDateOfTrip().before(startOfWeek) ? startOfWeek : trip.getDateOfTrip() );
+            // is ending date of trip on this week or not
+            Date endDate =
+                    (trip.getEndOfTrip().after(endOfWeek) ? endOfWeek : trip.getEndOfTrip() );
+
+            List<LocalDate> allDates = //days list
                     UtilClass.allDatesBetweenDates(
-                                                trip.getDateOfTrip().toLocalDate(),
-                                                trip.getEndOfTrip().toLocalDate());
+                                                startDate.toLocalDate(),
+                                                endDate.toLocalDate());
             for (LocalDate date : allDates) {
                 if (date.isAfter(startOfWeek.toLocalDate()) || (date.isEqual(startOfWeek.toLocalDate())) ) {
-                    howManyHours += 8; //hours
+                    howManyHours += (hoursInWorkDay * peopleCount);
                 }
             }
         }
